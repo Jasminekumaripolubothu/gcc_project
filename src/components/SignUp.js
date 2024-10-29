@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './SignUp.css'; // Ensure you have the proper CSS styling

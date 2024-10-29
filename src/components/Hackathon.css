@@ -11,7 +11,8 @@ body, html {
 /* Main Container */
 .hackathon-container {
     display: flex;
-    height: 100vh;
+    flex-direction: column; /* Stack elements vertically */
+    height: auto; /* Allow height to grow */
 }
 
 /* Sidebar Styling */
@@ -35,7 +36,7 @@ body, html {
     flex-grow: 1;
     padding: 90px;
     padding-top: 4%;
-    background-color: #F7FAFA; /* Optional: Add a background color */
+    background-color: #F7FAFA;
     overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
@@ -47,13 +48,19 @@ body, html {
     text-align: left;
 }
 
+/* Options Section Styling */
+.options-section {
+    display: flex; 
+    flex-direction: column;
+    margin-bottom: 20px; /* Space below options section */
+}
+
 /* Hackathon Grid Styling */
 .hackathon-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     row-gap: 80px;
-    margin-top: 70px;
     justify-content: space-around;
 }
 
@@ -114,17 +121,6 @@ body, html {
     .team-page-container {
         padding: 20px; /* Reduced padding for smaller screens */
     }
-    .hackathon-card h3 {
-        text-align: left;
-    }
-
-    .hackathon-card h2 {
-        text-align: left;
-    }
-
-    .hackathon-card p {
-        text-align: left;
-    }
 }
 
 @media (max-width: 480px) {
@@ -133,17 +129,14 @@ body, html {
     }
 
     .hackathon-card h3 {
-        text-align: left;
         font-size: 16px; /* Adjust heading size in card */
     }
 
     .hackathon-card h2 {
         font-size: 24px; /* Smaller heading in card */
-        text-align: left;
     }
 
     .hackathon-card p {
-        text-align: left;
         font-size: 16px; /* Smaller text in card */
     }
 }

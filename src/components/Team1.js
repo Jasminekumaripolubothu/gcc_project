@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './Team1.css'; 
 import gcclogo from "../assets/Logo.png";
@@ -12,9 +12,26 @@ import Img6 from "../assets/Img6.png";
 function Team1() {
     const navigate = useNavigate();
 
-    // const handleBack = () => {
-    //     navigate('/home');
-    // };
+    // State to track the status of each team member
+    const [teamMembers, setTeamMembers] = useState([
+        { id: 1, name: 'Sahitha', role: '2024, CSM', img: Img1, status: 'Active' },
+        { id: 2, name: 'Srinu Reddy', role: '2024, CSM', img: Img2, status: 'Active' },
+        { id: 3, name: 'Jasmine', role: '2024, CSD', img: Img3, status: 'Active' },
+        { id: 4, name: 'Surya Sagar', role: '2024, CSM', img: Img4, status: 'Inactive' },
+        { id: 5, name: 'Sravan Kumar', role: '2024, CAI', img: Img5, status: 'Inactive' },
+        { id: 6, name: 'Rutika', role: '2024, CSM', img: Img6, status: 'Active' },
+    ]);
+
+    const handleStatusToggle = (id) => {
+        // Toggle the status of the team member with the given id
+        setTeamMembers((prevMembers) =>
+            prevMembers.map((member) =>
+                member.id === id
+                    ? { ...member, status: member.status === 'Active' ? 'Inactive' : 'Active' }
+                    : member
+            )
+        );
+    };
 
     const handleTeamLeadClick = () => {
         navigate('/team-lead'); // Navigate to TeamLead page
@@ -24,13 +41,9 @@ function Team1() {
         navigate('/team-member'); // Navigate to TeamMember page
     };
 
-    // const handleHackathonClick = () => {
-    //     navigate('/Hackathon'); // Navigate to TeamMember page
-    // };
-
     return (
         <div className="team1-container">
-            <aside className="sidebar">
+            <aside className="sidebar2">
                 <div className='logo'>
                     <img src={gcclogo} alt="Global Logo"/>
                 </div>
@@ -40,10 +53,6 @@ function Team1() {
                     <span className="menu-text">Dashboard</span>
                 </div>
                 <ul>
-                    <li onClick={() => navigate('/home')} className="active">
-                        <span className="icon">👥</span>
-                        <p className='side'>Teams</p>
-                    </li>
                     <li onClick={() => navigate('/Hackathon')}>
                         <span className="icon">🏆</span>
                         <p className='side'>Hackathons</p>
@@ -59,50 +68,30 @@ function Team1() {
                         <h3>Sahitha</h3>
                         <p>2024, CSM</p>
                     </div>
-                    <button className="status active">Active</button>
+                    <button 
+                        className={`status ${teamMembers[0].status.toLowerCase()}`} 
+                        onClick={() => handleStatusToggle(teamMembers[0].id)}
+                    >
+                        {teamMembers[0].status}
+                    </button>
                 </div>
                 <h2>Members</h2>
                 <div className="team-members">
-                    <div className="member">
-                        <img src={Img2} alt="Srinu Reddy" onClick={handleMemberClick}/>
-                        <div onClick={handleMemberClick}>
-                            <h3>Srinu Reddy</h3>
-                            <p>2024, CSM</p>
+                    {teamMembers.slice(1).map((member) => (
+                        <div key={member.id} className="member">
+                            <img src={member.img} alt={member.name} onClick={handleMemberClick}/>
+                            <div onClick={handleMemberClick}>
+                                <h3>{member.name}</h3>
+                                <p>{member.role}</p>
+                            </div>
+                            <button 
+                                className={`status ${member.status.toLowerCase()}`} 
+                                onClick={() => handleStatusToggle(member.id)}
+                            >
+                                {member.status}
+                            </button>
                         </div>
-                        <button className="status active">Active</button>
-                    </div>
-                    <div className="member">
-                        <img src={Img3} alt="Jasmine" onClick={handleMemberClick}/>
-                        <div onClick={handleMemberClick}>
-                            <h3>Jasmine</h3>
-                            <p>2024, CSD</p>
-                        </div>
-                        <button className="status active">Active</button>
-                    </div>
-                    <div className="member">
-                        <img src={Img4} alt="Surya Sagar" onClick={handleMemberClick}/>
-                        <div onClick={handleMemberClick}>
-                            <h3>Surya Sagar</h3>
-                            <p>2024, CSM</p>
-                        </div>
-                        <button className="status inactive">Inactive</button>
-                    </div>
-                    <div className="member">
-                        <img src={Img5} alt="Sravan Kumar" onClick={handleMemberClick}/>
-                        <div onClick={handleMemberClick}>
-                            <h3>Sravan Kumar</h3>
-                            <p>2024, CAI</p>
-                        </div>
-                        <button className="status inactive">Inactive</button>
-                    </div>
-                    <div className="member">
-                        <img src={Img6} alt="Rutika" onClick={handleMemberClick}/>
-                        <div onClick={handleMemberClick}>
-                            <h3>Rutika</h3>
-                            <p>2024, CSM</p>
-                        </div>
-                        <button className="status active">Active</button>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>

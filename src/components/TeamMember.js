@@ -1,21 +1,40 @@
 // TeamMember.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TeamMember.css'; // Import your CSS styles
 import gcclogo from "../assets/Logo.png";
 import Img2 from "../assets/Img2.png";
-import task from "../assets/task.png";
+import taskimg from "../assets/taskimg.png";
 
 function TeamMember() {
     const navigate = useNavigate();
 
-    // const handleBack = () => {
-    //     navigate('/team1'); // Navigate back to Team 1
-    // };
+    // State to keep track of the status of tasks
+    const [tasks, setTasks] = useState([
+        { id: 1, title: 'Write an essay on the history of AI', date: 'Sep 12,2024', isDone: false },
+        { id: 2, title: 'Complete the Python Programming Quiz', date: 'Sep 12,2024', isDone: false },
+        { id: 3, title: 'Daily work update', date: 'Sep 13,2024', isDone: true }
+    ]);
 
-    // const handleHackathonClick = () => {
-    //     navigate('/Hackathon'); // Navigate to TeamMember page
-    // };
+    // State to keep track of the status of submissions
+    const [submissions, setSubmissions] = useState([
+        { id: 1, title: 'Task-1 File', date: 'Sep 11,2024', isSubmitted: true },
+        { id: 2, title: 'Task-2 File', date: 'Sep 12,2024', isSubmitted: true }
+    ]);
+
+    // Function to toggle the status of a task
+    const toggleTaskStatus = (taskId) => {
+        setTasks(tasks.map(task => 
+            task.id === taskId ? { ...task, isDone: !task.isDone } : task
+        ));
+    };
+
+    // Function to toggle the status of a submission
+    const toggleSubmissionStatus = (submissionId) => {
+        setSubmissions(submissions.map(submission =>
+            submission.id === submissionId ? { ...submission, isSubmitted: !submission.isSubmitted } : submission
+        ));
+    };
 
     return (
         <div className="teamlead-container">
@@ -51,49 +70,39 @@ function TeamMember() {
                 </div>
                 <h2>Tasks</h2>
                 <div className="tasks">
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Write an essay on the history of AI</h3>
-                            <p>Sep 12,2024</p>
+                    {tasks.map(task => (
+                        <div className="task" key={task.id}>
+                            <img src={taskimg} alt="Task" />
+                            <div>
+                                <h3>{task.title}</h3>
+                                <p>{task.date}</p>
+                            </div>
+                            <button 
+                                className={`status ${task.isDone ? 'inactive' : 'active'}`} 
+                                onClick={() => toggleTaskStatus(task.id)}
+                            >
+                                {task.isDone ? 'Mark as not done' : 'Mark as done'}
+                            </button>
                         </div>
-                        <button className="status active">Mark as done</button>
-                    </div>
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Complete the Python Programming Quiz</h3>
-                            <p>Sep 12,2024</p>
-                        </div>
-                        <button className="status active">Mark as done</button>
-                    </div>
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Daily work update</h3>
-                            <p>Sep 13,2024</p>
-                        </div>
-                        <button className="status inactive">Mark as done</button>
-                    </div>
+                    ))}
                 </div>
                 <h2>Submissions</h2>
                 <div className="tasks">
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Task-1 File</h3>
-                            <p>Sep 11,2024</p>
+                    {submissions.map(submission => (
+                        <div className="task" key={submission.id}>
+                            <img src={taskimg} alt="Task" />
+                            <div>
+                                <h3>{submission.title}</h3>
+                                <p>{submission.date}</p>
+                            </div>
+                            <button
+                                className={`status ${submission.isSubmitted ? 'active' : 'inactive'}`}
+                                onClick={() => toggleSubmissionStatus(submission.id)}
+                            >
+                                {submission.isSubmitted ? 'SUBMITTED' : 'NOT SUBMITTED'}
+                            </button>
                         </div>
-                        <button className="status active">SUBMITTED</button>
-                    </div>
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Task-2 File</h3>
-                            <p>Sep 12,2024</p>
-                        </div>
-                        <button className="status active">SUBMITTED</button>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>

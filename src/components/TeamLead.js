@@ -1,23 +1,38 @@
-// TeamLead.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './TeamLead.css'; // Import your CSS styles
+import './TeamLead.css';
 import gcclogo from "../assets/Logo.png";
 import Img1 from "../assets/Img1.png";
-import task from "../assets/task.png";
+import taskimg from "../assets/taskimg.png";
 import notdone from "../assets/notdone.png";
 import done from "../assets/done.png";
 
 function TeamLead() {
     const navigate = useNavigate();
 
-    // const handleBack = () => {
-    //     navigate('/team1'); // Navigate back to Team1
-    // };
+    const [tasks, setTasks] = useState([
+        { id: 1, title: "Write an essay on the history of AI", date: "Sep 12, 2024", status: "active" },
+        { id: 2, title: "Complete the Python Programming Quiz", date: "Sep 12, 2024", status: "active" },
+        { id: 3, title: "Daily work update", date: "Sep 13, 2024", status: "inactive" }
+    ]);
 
-    // const handleHackathonClick = () => {
-    //     navigate('/Hackathon'); // Navigate to TeamMember page
-    // };
+    const [completedTasks, setCompletedTasks] = useState([
+        { id: 1, name: "SRINU", date: "Sep 11, 2024", status: "PENDING" },
+        { id: 2, name: "SAGAR", date: "Sep 12, 2024", status: "COMPLETED" },
+        { id: 3, name: "RUTIKA", date: "Sep 13, 2024", status: "COMPLETED" }
+    ]);
+
+    const toggleTaskStatus = (taskId) => {
+        setTasks(tasks.map(task =>
+            task.id === taskId ? { ...task, status: task.status === "active" ? "inactive" : "active" } : task
+        ));
+    };
+
+    const toggleCompletedTaskStatus = (taskId) => {
+        setCompletedTasks(completedTasks.map(task =>
+            task.id === taskId ? { ...task, status: task.status === "PENDING" ? "COMPLETED" : "PENDING" } : task
+        ));
+    };
 
     return (
         <div className="teamlead-container">
@@ -54,57 +69,39 @@ function TeamLead() {
                 <h2>Task Completion</h2>
                 <h2>Tasks</h2>
                 <div className="tasks">
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Write an essay on the history of AI</h3>
-                            <p>Sep 12,2024</p>
+                    {tasks.map(task => (
+                        <div key={task.id} className="task">
+                            <img src={taskimg} alt="Task" />
+                            <div>
+                                <h3>{task.title}</h3>
+                                <p>{task.date}</p>
+                            </div>
+                            <button
+                                className={`status ${task.status}`}
+                                onClick={() => toggleTaskStatus(task.id)}
+                            >
+                                {task.status === "active" ? "Mark as not done" : "Mark as done"}
+                            </button>
                         </div>
-                        <button className="status active">Mark as done</button>
-                    </div>
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Complete the Python Programming Quiz</h3>
-                            <p>Sep 12,2024</p>
-                        </div>
-                        <button className="status active">Mark as done</button>
-                    </div>
-                    <div className="task">
-                        <img src={task} alt="Task" />
-                        <div>
-                            <h3>Daily work update</h3>
-                            <p>Sep 13,2024</p>
-                        </div>
-                        <button className="status inactive">Mark as done</button>
-                    </div>
+                    ))}
                 </div>
                 <h2>Tasks Completed</h2>
                 <div className="tasks">
-                    <div className="task">
-                        <img src={notdone} alt="Srinu Reddy" />
-                        <div>
-                            <h3>SRINU</h3>
-                            <p>Sep 11,2024</p>
+                    {completedTasks.map(task => (
+                        <div key={task.id} className="task">
+                            <img src={task.status === "PENDING" ? notdone : done} alt={task.name} />
+                            <div>
+                                <h3>{task.name}</h3>
+                                <p>{task.date}</p>
+                            </div>
+                            <button
+                                className={`status ${task.status.toLowerCase()}`}
+                                onClick={() => toggleCompletedTaskStatus(task.id)}
+                            >
+                                {task.status === "PENDING" ? "PENDING" : "COMPLETED"}
+                            </button>
                         </div>
-                        <button className="status active">PENDING</button>
-                    </div>
-                    <div className="task">
-                        <img src={done} alt="Jasmine" />
-                        <div>
-                            <h3>SAGAR</h3>
-                            <p>Sep 12,2024</p>
-                        </div>
-                        <button className="status active">COMPLETED</button>
-                    </div>
-                    <div className="task">
-                        <img src={done} alt="Surya Sagar" />
-                        <div>
-                            <h3>RUTIKA</h3>
-                            <p>Sep 13,2024</p>
-                        </div>
-                        <button className="status inactive">COMPLETED</button>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>
